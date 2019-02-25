@@ -1,17 +1,18 @@
 #*******************************************************************************
 #********************************************************************************
 #
-## R scipts "DiP" for Chiu's and Routledge's alpha, beta, gamma decomposition and dissimilarity. 
+## R scripts "DiP" for computing Chiu et al.'s (2014)'s and Routledge's (1979) alpha, beta, gamma diversities and associated 
+# dissimilarity measures. 
 # This code includes three parts:
-# (1) Taxonomic 
-# (2) Phylogenetic
-# (3) Plot function
-# (4) Example.
+# (1) Taxonomic version
+# (2) Phylogenetic version
+# (3) Plot dissimilarity function
+# (4) Example
 #
 # Note: The packages "phytools", "ade4", "dplyr", "reshape2" and "ggplot2",must be installed and loaded before running the scripts
 ####################################################################################
 #
-# (1).  Chiu's and Routledge's taxonomic alpha, beta, gamma decomposition and dissimilarity
+# (1). Taxonomic alpha, beta, gamma diversities and dissimilarity measures
 #
 ####################################################################################
 library(phytools)
@@ -20,13 +21,14 @@ library(dplyr)
 library(reshape2)
 library(ggplot2)
 
-#' Taxo_dissimilarity(data, q) computes the taxonomic alpha, beta, gamma decomposition and dissimilarity based on Chiu's and Routledge's framework.
-#' @param data a SxN dataframe of species raw abundance, where S is the number of pooled species and N is the number of assemblage.
+#' Taxo_dissimilarity(data, q) computes taxonomic alpha, beta, gamma diversities and dissimilarity measures.
+#' @param data a SxN dataframe of species raw abundance, where S is the number of species in the pooled assemblage and N is the number
+#'   of assemblages.
 #' @param q a non-negative vector specifying the diversity order
 #' @return a list consisting of three objects:
-#' (1) $Routledge: a table of alpha, beta, gamma decomposition and dissimilarity based on Routledge's frame work.
-#' (2) $Chiu: a table of alpha, beta, gamma decomposition and dissimilarity based on Chiu's frame work.
-#' (3) $Size_weight: size weight of each assemblage, which is used in Routledge's computation. 
+#' (1) $Routledge: a table of alpha, beta, gamma diversities and dissimilarity based on Routledge's framework.
+#' (2) $Chiu: a table of alpha, beta, gamma diversities and dissimilarity based on Chiu et al.'s framework.
+#' (3) $Size_weight: size weight of each assemblage, which is used in Routledge's decomposition. 
 Taxo_dissimilarity <- function(data, q, datatype){
   wi <- colSums(data)/sum(data)
   if(length(wi) != ncol(data)) stop("please check your weight, whose length should be the same as the number of assemblages.")
@@ -85,17 +87,18 @@ Taxo_dissimilarity <- function(data, q, datatype){
 
 ####################################################################################
 #
-# (2).  Chiu's and Routledge's phylogenetic alpha, beta, gamma decomposition and dissimilarity
+# (2).  Phylogenetic alpha, beta, gamma diversities and dissimilarity measures
 #
 ####################################################################################
-#' Phylo_dissimilarity(data, tree, q) computes the phylogenetic alpha, beta, gamma decomposition and dissimilarity based on Chiu's and Routledge's framework.
-#' @param data a SxN dataframe of species raw abundance, where S is the number of pooled species and N is the number of assemblage.
-#' @param tree the phylo tree of pooled assemblage
+#' Phylo_dissimilarity(data, tree, q) computes the phylogenetic alpha, beta, gamma decomposition and dissimilarity measures.
+#' @param data a SxN dataframe of species raw abundance, where S is the number of species in the pooled assembalges and N is
+#'  the number of assemblage.
+#' @param tree the phylogenetic tree spanned by S species of the pooled assemblage
 #' @param q a non-negative vector specifying the diversity order.
 #' @return a list consisting of two objects:
-#' (1) $Routledge: a table of phylogenetic alpha, beta, gamma decomposition and dissimilarity based on Routledge's frame work.
-#' (2) $Chiu: a table of phylogenetic alpha, beta, gamma decomposition and dissimilarity based on Chiu's frame work.
-#' (3) $Size_weight: size weight of each assemblage, which is used in Routledge's computation. 
+#' (1) $Routledge: a table of phylogenetic alpha, beta, gamma diversities and dissimilarity measures based on Routledge's framework.
+#' (2) $Chiu: a table of phylogenetic alpha, beta, gamma diversities and dissimilarity measures based on Chiu et al's framework.
+#' (3) $Size_weight: size weight of each assemblage, which is used in Routledge's decomposition. 
 Phylo_dissimilarity = function(data, tree, q){
   outputR = Beta.Equal(data, "abundance", tree, q)[[1]]
   outputC = Beta.Size(data, "abundance", tree, q)
@@ -414,14 +417,14 @@ alpha_r <- function(data , q, wi){
 
 ####################################################################################
 #
-# (3). Plot the outcome of (1) and (2) 
+# (3). Plot of dissimilarity measures 
 #
 ####################################################################################
 #' dis_plot(outcome) plots the output of Taxo_disimilarity or Phylo_disimilarity
 #' @param outcome the output of Taxo_disimilarity or Phylo_disimilarity
 #' @return a list consisting of two ggplot objects:
-#' (1) $Sorsen: the plot for Routledge and Chiu's 1-C q profile
-#' (2) $Jaccard: the plot for Routledge and Chiu's 1-U q profile
+#' (1) $Sorsen: plot for Routledge and Chiu et al.'s 1-C q-profile
+#' (2) $Jaccard: plot for Routledge and Chiu et al.'s 1-U q-profile
 dis_plot <- function(outcome){
   two <- data.frame(q = outcome$Routledge$Order, 
                     Absolute = outcome$Chiu[,"1-CqN"], Relative = outcome$Routledge[,"1-CqN"]) %>% melt(.,id=c("q"))
@@ -451,7 +454,7 @@ dis_plot <- function(outcome){
 
 ####################################################################################
 #
-# (4). Example
+# (4). Example (Kenting 2008 and 2013 censuses data) 
 #
 ####################################################################################
 data <- read.csv("Kenting_census.csv",row.names = 1,header = T)
