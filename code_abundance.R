@@ -2,7 +2,10 @@
 #********************************************************************************
 #
 ## R scripts "DiP" for computing Chiu et al.'s (2014)'s and Routledge's (1979) alpha, beta, gamma diversities and associated 
-# dissimilarity measures. 
+# dissimilarity measures. See the following paper for details:
+# Chao et al. (2019) Comparing two classes of alpha diversities and their corresponding beta and (dis)similarity measures: 
+# with an application to the Formosan sika deer (Cervus nippon taiouanus) reintroduction program 
+#
 # This code includes three parts:
 # (1) Taxonomic version
 # (2) Phylogenetic version
