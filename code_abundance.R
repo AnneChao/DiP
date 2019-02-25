@@ -2,7 +2,7 @@
 #********************************************************************************
 #
 ## R scripts "DiP" for computing Chiu et al.'s (2014)'s and Routledge's (1979) alpha, beta, gamma diversities and associated 
-# dissimilarity measures. See the following paper for details:
+# dissimilarity measures (Sorensen-type 1-C and Jaccard-type 1-U). See the following paper for details:
 # Chao et al. (2019) Comparing two classes of alpha diversities and their corresponding beta and (dis)similarity measures: 
 # with an application to the Formosan sika deer (Cervus nippon taiouanus) reintroduction program 
 #
