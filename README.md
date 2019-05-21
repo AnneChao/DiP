@@ -1,2 +1,2 @@
-# TwoAlpha
+# Diversity Partition
 
